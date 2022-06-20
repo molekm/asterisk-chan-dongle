@@ -1,0 +1,68 @@
+# List of Supported Models
+
+At this moment, only Huawei models are supported. ZTE is on the road…
+
+Note: Some users report bad voice quality using Centos 5 (i.e. Elastix). So, please, be careful with old kernels (i.e. 2.6.18)
+
+
+Device Model |	Voice	| SMS	| USSD	| Note
+-------------|-----------|-------|-------|-----
+E150 | -	| ?	 | ? |	One way voice 1)
+E153 | + |	+ |	+ |	OK by giovbs (at gmail.com)
+E1550 |	+ |	+ |	+ |	See notes 2)
+E1552 |	+ |	+ |	+ |	
+E156 |	+ |	+ |	+ |	OK by giovbs (at gmail.com)
+E160 |	+ |	+ |	+ |	OK by giovbs (at gmail.com)
+E1612 |	- |	+ |	+	|
+E166 |	? |	? |	? |	test required
+E169 |	+ |	+ |	+	|
+E1692 |	+ |	+ |	+ |	
+E169G |	- |	? |	? |	test required
+E171 |	+ |	+ |	+ |	
+E172 |	- |	? |	? |	test required
+E173 |	+ |	+ |	- |	3) 4)
+E175X |	+ |	+ |	+ |	
+E1752C | + |	+ |	+ |	Several interfaces 5)
+E1752 |	- |	+ |	+ |	(voice features disable, you must use dc-unlocker software for enabling voice -> Voice does not work even after dc-unlocking - tested on December 2016)
+E178 |	? |	? |	? |	test required
+E180 |	+ |	+ |	+ |	ok by ramoncio
+E1820 |	- |	+ |	+ |	(voice feature is disabled, currently no firmware with voice capabilities available)
+E220 |	- |	+ |	+ |	
+E270 |	- |	+ |	+ |	
+E303 |	6) |	+ |	+ |	See notes 7)
+EG162G | ? |	? |	? |	test required
+K3520 |	+ |	+ |	+ |	
+K3565 |	- |	- |	- |	zte model?
+K3715 |	+ |	+ |	+ |	
+K3765 |	+ |	+ |	+ |	Same model as E1762
+UMG1691|+ |	+ |	? |	
+
+# USB 2.0
+
+For voice call feature, it's highly recommended the use of USB version 2.0
+
+# Power specs and USB hubs
+
+According to vendor specs, most usb modems have:
+
+* 5V/500mA → 2.5 W
+
+Almost every computer has USB ports where you can plug devices such as pen drives, bluetooth dongles, portable hard disks, etc. 3G modems can also be plugged, but power source may be a serious limitation. If your computer has several USB ports, you must check it can deliver all the power needed for your devices at the same time.
+
+Normally, USB ports can deliver only 500 mA, so if you have more than one modem (or other hungry devices) plugged, it's possible you get stuck with strange problems.
+
+Also, USB hubs can be a source of problems if you connect more than one 3G modem. 500 mA is not enough current for 2 or more dongles. In this case, external powered USB hub is recommended to avoid strange behavior, but be very careful with this, not any model is ok for this task. Some of them have serious problems with RF interferences from GSM side, making impossible to use chan_dongle.
+
+Please, check [[list of compatible USB hubs]]. For more than 2 dongles, it is recommended to use a powered USB hub to supply enough power. You should note that not all hubs are compatible. D-Link [DUB-H7](https://www.dlink.com/en/products/dub-h7-7-port-usb-20-hub) and Orico [MH4U-U3](https://www.orico.cc/usmobile/product/detail/id/3307) only work with [3G mode](http://www.deepthought.ws/mobile/huawei-mobile/huawei-set-modem-mode-3ggprs/). You may need to switch your dongles to 2G mode for better signal RSSI. Using 2G mode in these dongles cause [frequent errors](http://mghadam.blogspot.com/2020/12/raspberrypi-4b-and-gsm-dongles.html) and make it impossible to use the dongles. TP-Link [UH700](https://www.tp-link.com/us/home-networking/usb-hub/uh700/) and [UH720](https://www.tp-link.com/us/home-networking/usb-hub/uh720/) hubs work decently with both 2G and 3G modes which might be because of the [VL812 chip](https://www.tp-link.com/us/home-networking/usb-hub/uh720/#specifications) that is used in them.
+
+***
+
+## Notes
+
+1. See [[one way audio e150]]
+1. [[Huawei E1550 with firmware 11.608.12.10.209 does not work]] in Linux
+1. May be cusd_use_7bit_encoding get correct USSD
+1. E173 devices sold in Brazil WILL NOT work - firmware 21.X can't be downgraded to 11.X
+1. Depending on value for at^u2diag, this modem show 3 or 4 interfaces
+1. For devices sold in Brazil only: OK to receive voice calls, OK to place calls to T1/E1/J1 or other virtual channels, NOT working to place calls to other mobiles or analog landlines
+1. NOT tested in other countries - also check asterisk-chan-dongle issue 117
